@@ -27,4 +27,28 @@ def generate_raster_toolpath(model, step_over=0.1):
         for point in layer_points:
             toolpath.append((point[0], y, point[2]))
     return toolpath
+
+def generate_pocketing_toolpath(model, step_over=0.1):
+    toolpath = []
+    min_z = np.min(model.v0[:, 2])
+    max_z = np.max(model.v0[:, 2])
+    z_steps = np.arange(min_z, max_z, step_over)
     
+    for z in z_steps:
+        layer_points = model.v0[model.v0[:, 2] == z]
+        for point in layer_points:
+            toolpath.append((point[0], point[1], z))
+    return toolpath
+
+def generate_helical_toolpath(center, radius, pitch, height):
+    toolpath = []
+    z = center[2]
+    angle = 0
+    while z <= center[2] + height:
+        x = center[0] + radius * np.cos(angle)
+        y = center[1] + radius * np.sin(angle)
+        toolpath.append((x, y, z))
+        angle += pitch
+        z += pitch / (2 * np.pi)  # Increment z by the pitch divided by 2*pi to create the helix
+    return toolpath
+

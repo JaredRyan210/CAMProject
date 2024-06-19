@@ -19,7 +19,7 @@ class CAMSoftware(QMainWindow):
         layout = QVBoxLayout()
 
         self.toolpathComboBox = QComboBox(self)
-        self.toolpathComboBox.addItems(["Contour", "Raster"])
+        self.toolpathComboBox.addItems(["Contour", "Raster", "Pocketing", "Helical"])
         layout.addWidget(self.toolpathComboBox)
 
         self.openButton = QPushButton('Open File', self)
@@ -39,9 +39,12 @@ class CAMSoftware(QMainWindow):
 
             if toolpath_type == "Contour":
                 toolpath = generate_contour_toolpath(model)
-
             elif toolpath_type == "Raster":
                 toolpath = generate_raster_toolpath(model)
+            elif toolpath_type == "Pocketing":
+                toolpath = generate_pocketing_toolpath(model)
+            elif toolpath_type == "Helical":
+                toolpath = generate_helical_toolpath((0,0,0), 10, 0.5, 50)
 
             visualize_toolpath_with_model(model, toolpath, f"{toolpath_type} Toolpath")
 
