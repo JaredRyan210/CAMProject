@@ -5,12 +5,14 @@ from stl import mesh
 def visualize_toolpath_with_model(model, toolpath, title="Toolpath Visualization"):
     fig = plt.figure()
     ax = fig.add_subplot(111, projection='3d')
-
+    '''
+    
+    
     for vector in model.vectors:
         ax.plot([vector[0][0], vector[1][0]], [vector[0][1], vector[1][1]], [vector[0][2], vector[1][2]], color='gray')
         ax.plot([vector[1][0], vector[2][0]], [vector[1][1], vector[2][1]], [vector[1][2], vector[2][2]], color='gray')
         ax.plot([vector[2][0], vector[0][0]], [vector[2][1], vector[0][1]], [vector[2][2], vector[0][2]], color='gray')
-
+    '''
 
     xs, ys, zs = zip(*toolpath)
 
