@@ -1,7 +1,7 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QFileDialog
+from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QFileDialog, QComboBox, QVBoxLayout, QWidget
 from file_import import load_stl
-from toolpath_generation import generate_toolpath
+from toolpath_generation import *
 from visualization import visualize_toolpath
 
 class CAMSoftware(QMainWindow):
@@ -14,9 +14,19 @@ class CAMSoftware(QMainWindow):
         self.setWindowTitle('CAM Software')
         self.setGeometry(100, 100, 800, 600)
 
+        central_widget = QWidget()
+        self.setCentralWidget(central_widget)
+        layout = QVBoxLayout()
+
+        self.toolpathComboBox = QComboBox(self)
+        self.toolpathComboBox.addItems(["Contour", "Raster"])
+        layout.addWidget(self.toolpathComboBox)
+
         self.openButton = QPushButton('Open File', self)
-        self.openButton.setGeometry(50, 50, 100, 30)
         self.openButton.clicked.connect(self.open_file)
+        layout.addWidget(self.openButton)
+
+        central_widget.setLayout(layout)
         print("UI Initialized")
 
     def open_file(self):
@@ -25,8 +35,15 @@ class CAMSoftware(QMainWindow):
         file_path, _ = QFileDialog.getOpenFileName(self, "Open STL File", "", "STL Files (*.stl)", options=options)
         if file_path:
             model = load_stl(file_path)
-            toolpath = generate_toolpath(model)
-            visualize_toolpath(toolpath)
+            toolpath_type = self.toolpathComboBox.currentText()
+
+            if toolpath_type == "Contour":
+                toolpath = generate_contour_toolpath(model)
+
+            elif toolpath_type == "Raster":
+                toolpath = generate_raster_toolpath(model)
+
+            visualize_toolpath(toolpath, f"{toolpath_type} Toolpath")
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
