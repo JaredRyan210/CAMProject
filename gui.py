@@ -2,7 +2,7 @@ import sys
 from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QFileDialog, QComboBox, QVBoxLayout, QWidget
 from file_import import load_stl
 from toolpath_generation import *
-from visualization import visualize_toolpath
+from visualization import visualize_toolpath_with_model
 
 class CAMSoftware(QMainWindow):
     def __init__(self):
@@ -43,7 +43,7 @@ class CAMSoftware(QMainWindow):
             elif toolpath_type == "Raster":
                 toolpath = generate_raster_toolpath(model)
 
-            visualize_toolpath(toolpath, f"{toolpath_type} Toolpath")
+            visualize_toolpath_with_model(model, toolpath, f"{toolpath_type} Toolpath")
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
