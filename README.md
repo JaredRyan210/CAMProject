@@ -23,13 +23,16 @@ The software includes functionalities for loading STL files, generating differen
 
 To run, install the required dependencies with command:
 
+```bash
 pip install -r requirements.txt
-
+```
 ## Usage
 
 To run the application, run the 'main.py' script:
 
+```bash
 python main.py
+```
 
 ## GUI Overview
 
